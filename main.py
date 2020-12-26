@@ -44,7 +44,7 @@ except:
                          if confirm.lower() == 'yes':
                               try:
                                    with open("settings.json", "w") as outfile: 
-                                        json.dumps({
+                                        json.dump({
                                              "token": token,
                                              "device_name": device_name,
                                              "interval": 3600,
