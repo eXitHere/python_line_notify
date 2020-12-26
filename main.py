@@ -10,7 +10,7 @@ from log import info, err
 try:
      f = open('settings.json',)
      setting = json.load(f)
-     if setting['token'] == '' or setting['device_name']:
+     if setting['token'] == '' or setting['device_name'] == '':
           raise havenotoken
      while True:
           msg = setting['device_name'] + ' => ' + datetime.datetime.now().strftime('%y %b,%a %I:%M %p') + ' is online.' +'\n'
@@ -44,11 +44,11 @@ except:
                          if confirm.lower() == 'yes':
                               try:
                                    with open("settings.json", "w") as outfile: 
-                                        json.dump({
+                                        json.dumps({
                                              "token": token,
                                              "device_name": device_name,
                                              "interval": 3600,
-                                             "log": false
+                                             "log": False
                                         }, outfile)
                                    print("Saved file!")
                                    created_setting = True
