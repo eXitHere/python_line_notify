@@ -10,6 +10,8 @@ from log import info, err
 try:
      f = open('settings.json',)
      setting = json.load(f)
+     if setting['token'] == '' or setting['device_name']:
+          raise havenotoken
      while True:
           msg = setting['device_name'] + ' => ' + datetime.datetime.now().strftime('%y %b,%a %I:%M %p') + ' is online.' +'\n'
           msg += 'CPU: ' + str(psutil.cpu_percent()) + '%\n' + 'RAM: ' + str(psutil.virtual_memory()[2]) + '%'
