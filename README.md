@@ -9,8 +9,8 @@ how to install:
 
 ##### line
 
-![line image]('image/line_msg.png')
+![line image](image/line_msg.png)
 
 ##### terminal log
 
-![line image]('image/terminal_msg.png')
+![line image](image/terminal_msg.png)
