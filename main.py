@@ -5,19 +5,29 @@ import sys
 from termcolor import colored
 from python_line_notify import send_msg
 import datetime
+from log import info, err
 
 try:
      f = open('settings.json',)
      setting = json.load(f)
-     msg = setting['device_name'] + ': ' + datetime.datetime.now().strftime('%y %b,%a %I:%M %p') + ' is online.' +'\n'
-     msg += 'CPU: ' + str(psutil.cpu_percent()) + '%\n' + 'RAM: ' + str(psutil.virtual_memory()[2]) + '%'
-     print(msg)
-     if send_msg(setting['token'], msg) == 200:
-          print("Send message success!")
-     else:
-          print("Send message fail")
+     while True:
+          msg = setting['device_name'] + ' => ' + datetime.datetime.now().strftime('%y %b,%a %I:%M %p') + ' is online.' +'\n'
+          msg += 'CPU: ' + str(psutil.cpu_percent()) + '%\n' + 'RAM: ' + str(psutil.virtual_memory()[2]) + '%'
+          print(msg)
+          if send_msg(setting['token'], msg) == 200:
+               if setting['log']:
+                    info("(Success) " + msg)
+               print("Send message success!")
+          else:
+               if setting['log']:
+                   info("(Fail) " + msg)
+               print("Send message fail")
+          print(colored(f"delay {setting['interval']} seconds.", 'yellow'))
+          time.sleep(int(setting['interval']))
+except KeyboardInterrupt:
+     print("Bye.")
 except:
-     print("setting.json not fonud.\npress 1: create new setting\npress 2: exit")
+     print("settings.json not fonud.\npress 1: create new setting\npress 2: exit")
      created_setting = False
      while not created_setting:
           command = input("Enter command: ")
@@ -34,7 +44,9 @@ except:
                                    with open("settings.json", "w") as outfile: 
                                         json.dump({
                                              "token": token,
-                                             "device_name": device_name
+                                             "device_name": device_name,
+                                             "interval": 3600,
+                                             "log": false
                                         }, outfile)
                                    print("Saved file!")
                                    created_setting = True

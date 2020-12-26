@@ -1,3 +1,5 @@
-settings.json
+# settings.json
+mysettings.txt
 __pycache__
 venv
+app.log
