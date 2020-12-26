@@ -4,11 +4,18 @@ import json
 import sys
 from termcolor import colored
 from python_line_notify import send_msg
+import datetime
 
 try:
      f = open('settings.json',)
      setting = json.load(f)
-     send_msg(setting['token'], "Hello world")
+     msg = setting['device_name'] + ': ' + datetime.datetime.now().strftime('%y %b,%a %I:%M %p') + ' is online.' +'\n'
+     msg += 'CPU: ' + str(psutil.cpu_percent()) + '%\n' + 'RAM: ' + str(psutil.virtual_memory()[2]) + '%'
+     print(msg)
+     if send_msg(setting['token'], msg) == 200:
+          print("Send message success!")
+     else:
+          print("Send message fail")
 except:
      print("setting.json not fonud.\npress 1: create new setting\npress 2: exit")
      created_setting = False
@@ -40,6 +47,3 @@ except:
                          break
           elif command == '2':
                sys.exit(0)
-
-# time.sleep(1)
-# print(psutil.cpu_percent(), psutil.virtual_memory()[2])
